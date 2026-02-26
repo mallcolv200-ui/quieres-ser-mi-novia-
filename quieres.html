@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi novia? ??</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.2s;
+            position: absolute;
+        }
+
+        #btn-si {
+            background-color: #28a745;
+            color: white;
+            left: 40%;
+            transform: translateX(-50%);
+            z-index: 999; /* Siempre arriba */
+        }
+
+        #btn-no {
+            background-color: #dc3545;
+            color: white;
+            left: 60%;
+            transform: translateX(-50%);
+        }
+
+        #mensaje-final {
+            display: none;
+            font-size: 2.5rem;
+            color: #d63384;
+            font-weight: bold;
+        }
+
+        .gif-corazon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="contenido">
+        <div class="gif-corazon">??</div>
+        <h1 id="pregunta">Quieres ser mi novia?</h1>
+        
+        <div class="container">
+            <button id="btn-si">ci</button>
+            <button id="btn-no">No se</button>
+        </div>
+    </div>
+
+    <div id="mensaje-final">
+        waos elejiste que siii teamo<br>
+        
+    </div>
+
+    <script>
+        const btnSi = document.getElementById("btn-si");
+        const btnNo = document.getElementById("btn-no");
+        const pregunta = document.getElementById("'pregunta");
+        const contenido = document.getElementById("contenido");
+        const mensajeFinal = document.getElementById('mensaje-final');
+
+        let escalaSi = 1;
+        let intentosNo = 0;
+
+        // Función para mover el botón "No" y agrandar el "Sí"
+        function huir() {
+            intentosNo++;
+            
+            // Agrandar el botón SI
+            escalaSi += 0.5; 
+            btnSi.style.transform = `translateX(-50%) scale(${escalaSi})`;
+
+            // Mover el botón NO a una posición aleatoria
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            
+            btnNo.style.position = "fixed";
+            btnNo.style.left = x + "px";
+            btnNo.style.top = y + "px";
+
+            // Cambiar el texto de la pregunta según los intentos
+            if (intentosNo === 5) pregunta.innerText = "¿Segura? ??";
+            if (intentosNo === 10) pregunta.innerText = "Piénsalo bien... ??";
+            if (intentosNo === 15) pregunta.innerText = "Ya no tienes opción ??";
+        }
+
+        btnNo.addEventListener('mouseover', huir);
+        btnNo.addEventListener('click', huir);
+
+        // Acción al presionar SÍ
+        btnSi.addEventListener('click', () => {
+            contenido.style.display = 'none';
+            mensajeFinal.style.display = 'block';
+            
+            // Lanzar confeti
+            var duration = 5 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+              confetti({
+                particleCount: 7,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#ff0000', '#ffa500', '#ff69b4']
+              });
+              confetti({
+                particleCount: 7,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#ff0000', '#ffa500', '#ff69b4']
+              });
+
+              if (Date.now() < end) {
+                requestAnimationFrame(frame);
+              }
+            }());
+        });
+    </script>
+</body>
+</html>
